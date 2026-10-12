@@ -17,7 +17,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* App Container */
+/* 
+   App Container
+    */
 .app {
   width: 100vw;
   height: 100vh;
@@ -29,9 +31,12 @@ body {
     #0a0a0f;
 }
 
-/* Header */
+/*
+   Header
+    */
 .header {
   height: 70px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -93,7 +98,9 @@ body {
   white-space: nowrap;
 }
 
-/* Upload Zone */
+/*
+   Upload Zone
+    */
 .upload-container {
   flex: 1;
   display: flex;
@@ -102,6 +109,7 @@ body {
   justify-content: center;
   padding: 40px 20px;
   gap: 40px;
+  overflow-y: auto;
 }
 
 .upload-zone {
@@ -214,12 +222,15 @@ body {
   color: #666;
 }
 
-/* Editor Layout */
+/*
+   Editor Layout (Desktop)
+    */
 .editor-layout {
   flex: 1;
   display: grid;
   grid-template-columns: 320px 1fr;
   overflow: hidden;
+  min-height: 0;
 }
 
 .sidebar {
@@ -247,9 +258,10 @@ body {
   padding: 24px;
   gap: 20px;
   overflow: hidden;
+  min-height: 0;
 }
 
-/* Canvas */
+
 .canvas-wrapper {
   flex: 1;
   display: flex;
@@ -261,22 +273,35 @@ body {
     repeating-conic-gradient(#1a1a1f 0% 25%, #15151a 0% 50%) 50% / 20px 20px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  min-height: 0;
+  position: relative;
 }
 
 .canvas-container {
   position: relative;
   max-width: 100%;
   max-height: 100%;
+  width: 100%;
+  height: 100%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   border-radius: 8px;
   overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .canvas-image {
-  max-width: 100%;
-  max-height: calc(100vh - 280px);
   display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+  object-position: center;
+  max-width: 100%;
+  max-height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .canvas-badge {
@@ -291,9 +316,12 @@ body {
   font-weight: 700;
   letter-spacing: 2px;
   color: #fff;
+  z-index: 2;
 }
 
-/* Panels */
+/*
+   Panels
+    */
 .panel {
   display: flex;
   flex-direction: column;
@@ -314,7 +342,9 @@ body {
   font-weight: 700;
 }
 
-/* Presets Grid */
+/*
+   Presets Grid
+    */
 .presets-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -381,7 +411,9 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* Adjustments */
+/*
+   Adjustments
+    */
 .adjustments-list {
   display: flex;
   flex-direction: column;
@@ -462,7 +494,9 @@ body {
   border: none;
 }
 
-/* Toolbar */
+/*
+   Toolbar
+    */
 .toolbar {
   display: flex;
   align-items: center;
@@ -476,7 +510,9 @@ body {
   gap: 10px;
 }
 
-/* Buttons */
+/*
+   Buttons
+    */
 .btn-primary,
 .btn-secondary,
 .btn-compare,
@@ -556,7 +592,9 @@ body {
   justify-content: center;
 }
 
-/* Responsive */
+/*
+    TABLET — 900px وأقل
+    */
 @media (max-width: 900px) {
   .editor-layout {
     grid-template-columns: 1fr;
@@ -567,16 +605,14 @@ body {
     order: 2;
     border-right: none;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
-    max-height: 45vh;
+    max-height: 40vh;
   }
 
   .canvas-area {
     order: 1;
-    padding: 16px;
-  }
-
-  .canvas-image {
-    max-height: calc(60vh - 200px);
+    padding: 12px;
+    gap: 12px;
+    min-height: 0;
   }
 
   .presets-grid {
@@ -584,14 +620,17 @@ body {
   }
 }
 
+/*
+    MOBILE — 600px وأقل
+    */
 @media (max-width: 600px) {
   .header {
-    padding: 0 16px;
-    height: 60px;
+    padding: 0 14px;
+    height: 52px;
   }
 
   .header-brand h1 {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .header-brand p {
@@ -602,9 +641,172 @@ body {
     display: none;
   }
 
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /*  التخطيط: Canvas أولاً بحجم أكبر */
+  .editor-layout {
+    grid-template-rows: 1fr auto;
+    gap: 0;
+  }
+
+  /*  Canvas: يأخذ مساحة أكبر */
+  .canvas-area {
+    order: 1;
+    padding: 6px;
+    gap: 6px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /*  Canvas wrapper: حشوة صغيرة جداً */
+  .canvas-wrapper {
+    padding: 4px;
+    border-radius: 10px;
+    min-height: 0;
+  }
+
+  .canvas-container {
+    border-radius: 6px;
+  }
+
+  /*  الصورة: تُعرض كاملة داخل الحاوية */
+  .canvas-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .canvas-badge {
+    top: 6px;
+    left: 6px;
+    padding: 3px 6px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  /*  Sidebar: مساحة أصغر لصالح Canvas */
+  .sidebar {
+    order: 2;
+    padding: 12px;
+    gap: 14px;
+    max-height: 38vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .panel {
+    gap: 8px;
+  }
+
+  .panel-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .presets-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+
+  .preset-thumb {
+    border-radius: 8px;
+  }
+
+  .preset-btn span {
+    font-size: 9px;
+  }
+
+  .adjustments-list {
+    gap: 10px;
+  }
+
+  .adj-label {
+    font-size: 11px;
+  }
+
+  .adj-value {
+    font-size: 10px;
+  }
+
+  .adj-slider::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+  }
+
+  /*  Toolbar على الموبايل */
+  .toolbar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .toolbar-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-compare {
+    padding: 10px 12px;
+    font-size: 12px;
+    justify-content: center;
+  }
+
+  .btn-compare {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  .download-btn {
+    min-width: auto;
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  /*  Upload Zone على الموبايل */
+  .upload-container {
+    padding: 20px 14px;
+    gap: 24px;
+  }
+
   .upload-zone {
-    padding: 40px 20px;
-    min-height: 300px;
+    padding: 32px 20px;
+    min-height: 260px;
+    border-radius: 20px;
+  }
+
+  .upload-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .upload-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .upload-zone h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .upload-zone p {
+    font-size: 12px;
+    text-align: center;
   }
 
   .upload-features {
@@ -615,24 +817,55 @@ body {
 
   .feature {
     width: 100%;
+    padding: 12px 16px;
+    min-width: auto;
+  }
+}
+
+/*
+    SMALL MOBILE — 400px وأقل
+    */
+@media (max-width: 400px) {
+  .canvas-area {
+    padding: 4px;
   }
 
-  .toolbar {
-    flex-direction: column-reverse;
-    align-items: stretch;
-  }
-
-  .toolbar-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .btn-compare {
-    width: 100%;
-    justify-content: center;
+  .canvas-wrapper {
+    padding: 3px;
+    border-radius: 8px;
   }
 
   .presets-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .sidebar {
+    max-height: 40vh;
+  }
+}
+
+/*
+    LANDSCAPE MOBILE — عند تدوير الهاتف أفقيًا
+    */
+@media (max-width: 900px) and (orientation: landscape) {
+  .editor-layout {
+    grid-template-columns: 1fr 280px;
+    grid-template-rows: 1fr;
+  }
+
+  .canvas-area {
+    order: 1;
+    padding: 6px;
+  }
+
+  .sidebar {
+    order: 2;
+    max-height: 100vh;
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .header {
+    height: 48px;
   }
 }
